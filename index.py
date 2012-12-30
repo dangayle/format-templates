@@ -1,6 +1,6 @@
 import io
 import re
-
+from ast import literal_eval
 
 def replace_iter(data, iter_name, string_object):
     '''
@@ -14,55 +14,22 @@ def replace_iter(data, iter_name, string_object):
         new_tags.append(found_tags.group(2).replace('[i]', '[' + str(i) + ']'))
     return string_object.replace(found_tags.group(1), ''.join(new_tags))
 
-    # print found_tags[0][0]
-    # return(string_object.replace(found_tags.group(0), ''.join(new_tags)))
 
+def get_data():
+    '''
+    kludge until I build the next part
+    '''
+    with io.open('data/page1.py', encoding="utf-8") as tem:
+        data = tem.read()
+        data = literal_eval(data)
+        return data
+
+
+page_data = get_data()
 
 with io.open('templates/template.html', encoding="utf-8") as tem:
     template = tem.read()
+    template = replace_iter(page_data['excerpts'], 'excerpts', template)
+    template = replace_iter(page_data['tags'], 'tags', template)
 
-    excerpts = [
-        {
-        'title': 'Alpha',
-        'permalink': "alpha",
-        'node': 'greekletters',
-        'date': 'today',
-        'author': 'Dan',
-        'content': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-        },
-        {
-        'title': 'Beta',
-        'permalink': "beta",
-        'node': 'greekletters',
-        'date': 'today',
-        'author': 'Dan',
-        'content': 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-        },
-        {
-        'title': 'Gamma',
-        'permalink': "alpha",
-        'node': 'greekletters',
-        'date': 'today',
-        'author': 'Dan',
-        'content': 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-        },
-        {
-        'title': 'Delta',
-        'permalink': "beta",
-        'node': 'greekletters',
-        'date': 'today',
-        'author': 'Dan',
-        'content': 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-        }
-
-    ]
-
-    page_data = {
-        'name': 'Dan',
-        'excerpts': excerpts
-    }
-
-    template = replace_iter(excerpts, 'excerpts', template)
-
-    # print template
     print template.format(**page_data)
