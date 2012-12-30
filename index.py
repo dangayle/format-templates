@@ -8,10 +8,11 @@ def replace_iter(data, iter_name, string_object):
     Find html template tag to loop over, replace with exact number of items.
     '''
 
-    regex = re.compile('({{%' + iter_name + '\s+(.*)\s+%}})')
+    regex = re.compile('({{%' + iter_name + '\s+(.*?)\s+%}})')
     found_tags = re.search(regex, string_object)
     new_tags = []
-    for i in range(len(data)):
+
+    for i, _ in enumerate(data):
         new_tags.append(found_tags.group(2).replace('[i]', '[' + str(i) + ']'))
     return string_object.replace(found_tags.group(1), ''.join(new_tags))
 
@@ -21,7 +22,7 @@ def find_iters(string_object):
     Find all the iterable template tags.
     '''
 
-    regex = re.compile('{{%(.*)\s+.*\s+%}}')
+    regex = re.compile('{{%(.*?)\s+.*\s+%}}')
     found_tags = re.findall(regex, string_object)
     return found_tags
 
