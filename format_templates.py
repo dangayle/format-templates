@@ -1,5 +1,8 @@
+from __future__ import print_function
 import io
+import os
 import re
+import sys
 from ast import literal_eval
 
 
@@ -52,8 +55,30 @@ def view(page_data, template):
         return template.format(**page_data)
 
 
-def main():
-    page_data = model()
-    print(view(page_data, 'template'))
+def render_html(model):
+    '''
+    Make directories if needed and render view as html file.
+    '''
 
-if __name__ == "__main__" : main()
+    node = model['node']
+    permalink = model['permalink']
+    path_file = node + '/' + permalink + '.html'
+
+    if node != "index":
+        try:
+            sys.stdout.write('Trying to create directory www/' + node + '\n')
+            os.mkdir('www/' + node)
+        except OSError as e:
+            sys.stdout.write("{}, moving on\n".format(e.strerror))
+
+    with io.open('www/' + path_file, mode="w", encoding="utf-8") as tem:
+        sys.stdout.write('Creating file www/' + path_file + '\n')
+        tem.write(view(model, model['template']))
+
+
+def main():
+    #print(view(model(), 'template'))
+    render_html(model())
+
+if __name__ == "__main__":
+    main()

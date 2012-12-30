@@ -1,7 +1,8 @@
 {
-    'node': 'index',
-    'permalink': 'dan-gayle.html',
+    'node': 'posts',
+    'permalink': 'index',
     'name': 'Dan',
+    'template': 'template',
     'excerpts': [
         {
         'title': 'Alpha',
