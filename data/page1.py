@@ -1,4 +1,6 @@
 {
+    'node': 'index',
+    'permalink': 'dan-gayle.html',
     'name': 'Dan',
     'excerpts': [
         {
