@@ -1,4 +1,4 @@
-{
+page = {
     'node': 'posts',
     'permalink': 'index',
     'name': 'Dan',
@@ -38,5 +38,7 @@
         }
     ],
 
-    "tags":['beans', 'children', 'popcorn']
+    "tags": ['beans', 'children', 'popcorn'],
+
+    "numbers": xrange(0,10)
 }
